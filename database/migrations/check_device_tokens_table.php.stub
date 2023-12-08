@@ -1,0 +1,56 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        if (!Schema::hasTable('device_tokens')) {
+            Schema::create('device_tokens', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
+                $table->string('device_token')->nullable();
+                $table->integer('platform')->default(0);
+                $table->timestamps();
+            });
+        } else {
+            $this->checkColumns();
+        }
+    }
+
+    private function checkColumns()
+    {
+        if (!Schema::hasColumn('device_tokens', 'user_id')) {
+            Schema::table('device_tokens', function (Blueprint $table) {
+                $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
+            });
+        }
+        if (!Schema::hasColumn('device_tokens', 'device_token')) {
+            Schema::table('device_tokens', function (Blueprint $table) {
+                $table->string('device_token')->nullable();
+            });
+        }
+        if (!Schema::hasColumn('device_tokens', 'platform')) {
+            Schema::table('device_tokens', function (Blueprint $table) {
+                $table->integer('platform')->default(0);
+            });
+        }
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('device_tokens');
+    }
+};

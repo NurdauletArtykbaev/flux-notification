@@ -1,0 +1,92 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        if (!Schema::hasTable('quick_notifications')) {
+            Schema::create('quick_notifications', function (Blueprint $table) {
+                $table->id();
+                $table->string('description')->nullable();
+                $table->text('subject')->nullable();
+                $table->text('text')->nullable();
+                $table->boolean('send_sms')->default(false);
+                $table->boolean('to_all')->default(false);
+                $table->text('cities')->nullable();
+                $table->foreignId('notification_type_id')->nullable()->references('id')
+                    ->on('notification_types')->nullOnDelete();
+                $table->boolean('status')->default(false);
+                $table->timestamps();
+            });
+        } else {
+            $this->checkColumns();
+        }
+    }
+
+    /**
+     * Проверка и добавление недостающих колонок.
+     */
+    private function checkColumns()
+    {
+        if (!Schema::hasColumn('quick_notifications', 'description')) {
+            Schema::table('quick_notifications', function (Blueprint $table) {
+                $table->string('description')->nullable();
+            });
+        }
+        if (!Schema::hasColumn('quick_notifications', 'subject')) {
+            Schema::table('quick_notifications', function (Blueprint $table) {
+                $table->text('subject')->nullable();
+            });
+        }
+        if (!Schema::hasColumn('quick_notifications', 'text')) {
+            Schema::table('quick_notifications', function (Blueprint $table) {
+                $table->text('text')->nullable();
+            });
+        }
+        if (!Schema::hasColumn('quick_notifications', 'send_sms')) {
+            Schema::table('quick_notifications', function (Blueprint $table) {
+                $table->boolean('send_sms')->default(false);
+            });
+        }
+        if (!Schema::hasColumn('quick_notifications', 'to_all')) {
+            Schema::table('quick_notifications', function (Blueprint $table) {
+                $table->boolean('to_all')->default(false);
+            });
+        }
+        if (!Schema::hasColumn('quick_notifications', 'cities')) {
+            Schema::table('quick_notifications', function (Blueprint $table) {
+                $table->text('cities')->nullable();
+            });
+        }
+        if (!Schema::hasColumn('quick_notifications', 'notification_type_id')) {
+            Schema::table('quick_notifications', function (Blueprint $table) {
+                $table->foreignId('notification_type_id')->nullable()->references('id')
+                    ->on('notification_types')->nullOnDelete();
+            });
+        }
+        if (!Schema::hasColumn('quick_notifications', 'status')) {
+            Schema::table('quick_notifications', function (Blueprint $table) {
+                $table->boolean('status')->default(false);
+            });
+        }
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('quick_notifications');
+    }
+};
