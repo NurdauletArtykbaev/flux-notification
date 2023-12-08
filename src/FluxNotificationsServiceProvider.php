@@ -36,7 +36,7 @@ class FluxNotificationsServiceProvider extends ServiceProvider
     public function publishLang()
     {
         $this->publishes([
-            __DIR__ . '/../lang/test.php' =>  $this->app->langPath('vendor/flux-notification.php'),
+            __DIR__ . '/../lang/flux-notification.php' =>  $this->app->langPath('ru/flux-notification.php'),
         ], 'flux-notification-config');
     }
 
