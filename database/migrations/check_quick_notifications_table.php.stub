@@ -17,6 +17,7 @@ return new class extends Migration
             Schema::create('quick_notifications', function (Blueprint $table) {
                 $table->id();
                 $table->string('description')->nullable();
+                $table->string('image')->nullable();
                 $table->text('subject')->nullable();
                 $table->text('text')->nullable();
                 $table->boolean('send_sms')->default(false);
@@ -65,6 +66,11 @@ return new class extends Migration
         if (!Schema::hasColumn('quick_notifications', 'cities')) {
             Schema::table('quick_notifications', function (Blueprint $table) {
                 $table->text('cities')->nullable();
+            });
+        }
+        if (!Schema::hasColumn('quick_notifications', 'image')) {
+            Schema::table('quick_notifications', function (Blueprint $table) {
+                $table->string('image')->nullable();
             });
         }
         if (!Schema::hasColumn('quick_notifications', 'notification_type_id')) {

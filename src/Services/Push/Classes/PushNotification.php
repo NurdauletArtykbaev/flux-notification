@@ -1,6 +1,6 @@
 <?php
 
-namespace Raim\FluxNotify\Push\Classes;
+namespace Raim\FluxNotify\Services\Push\Classes;
 
 use Raim\FluxNotify\Helpers\DeviceTokenHelper;
 use Raim\FluxNotify\Helpers\NotificationHelper;

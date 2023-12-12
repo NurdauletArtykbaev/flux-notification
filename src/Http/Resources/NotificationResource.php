@@ -29,7 +29,7 @@ class NotificationResource extends JsonResource
             'subject' => $this->fields_json['subject'] ?? $this->removeVariablesFromText($this->pushable->subject),
             'text' => $this->fields_json['text'] ?? $this->removeVariablesFromText($this->pushable->text),
             'order_id' => $this->fields_json['order_id'] ?? null,
-            'ad' => $ad ?? null,
+            'item' => $ad ?? null,
             'notification_type_id' => $this->notification_type_id,
             'order' => $this->whenLoaded('order', function () {
                 return [

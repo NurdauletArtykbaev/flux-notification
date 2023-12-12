@@ -3,7 +3,7 @@
 namespace Raim\FluxNotify\Push\Drivers;
 
 use Raim\FluxNotify\Helpers\DeviceTokenHelper;
-use Raim\FluxNotify\Push\Classes\PushNotification;
+use Raim\FluxNotify\Services\Push\Classes\PushNotification;
 use Raim\FluxNotify\Push\Contracts\PushDriverInterface;
 use Illuminate\Support\Facades\Http;
 

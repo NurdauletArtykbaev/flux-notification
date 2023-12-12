@@ -23,9 +23,10 @@ class NotificationTypeResource extends JsonResource
                 if (!$this->sentPushNotifications->count()) {
                     return null;
                 }
+                $notification = $this->sentPushNotifications->first();
                 return [
-                    'text' => $this->sentPushNotifications->first()?->fields_json['text'],
-                    'subject' => $this->sentPushNotifications->first()?->fields_json['subject']
+                    'subject' => $notification?->fields_json['subject'] ?? $notification->pushable->subject,
+                    'text' => $notification?->fields_json['text'] ?? $notification->pushable->text,
                 ];
             }),
             'slug' => $this->slug,

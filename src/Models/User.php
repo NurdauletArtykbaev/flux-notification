@@ -21,7 +21,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(SentPushNotification::class);
     }
+    public function isPushEnabled()
+    {
 
+        return true;
+//        return $this->deviceTokens()->exists();
+    }
     public function deviceTokens()
     {
         return $this->hasMany(DeviceToken::class);

@@ -33,7 +33,7 @@ class NotificationController
         $notifications = config('flux-notification.models.user')::findOrFail($user->id)->sentPushNotifications()
             ->whereHas('notificationType', fn($query) => $query->where('slug', $slug))
             ->isNotOld()
-            ->when($slug != SendNotificationHelper::NOTIFICATION_TYPE_NEWS, fn($query) => $query->has('order')->with('order'))
+//            ->when($slug != SendNotificationHelper::NOTIFICATION_TYPE_NEWS, fn($query) => $query->has('order')->with('order'))
             ->orderByRaw("CASE WHEN sent_push_notifications.status!='" . NotificationHelper::STATUS_READ . "'THEN 1 ELSE 2 END ASC")
             ->orderBy("created_at", "desc")
             ->get();

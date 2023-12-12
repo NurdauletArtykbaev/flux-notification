@@ -21,6 +21,7 @@ class NotificationTypeController
             ])->with([
                 'sentPushNotifications' => fn($query) => $query->isNotOld()
                     ->where('user_id', $user->id)
+                    ->with('pushable')
                     ->latest()
                     ->limit(1)
             ]);
