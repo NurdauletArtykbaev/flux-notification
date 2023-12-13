@@ -58,7 +58,7 @@ class NotificationController
 
     public function updateUnread(Request $request)
     {
-        $user = $request->user();
+        $user = auth('sanctum')->user();
         $type = $request->input('type');
         $unreadNotifications = config('flux-notification.models.sent_push_notification')::query()
             ->where('status', NotificationHelper::STATUS_UNREAD)
@@ -77,5 +77,14 @@ class NotificationController
         }
 
         return response()->noContent();
+    }
+
+    public function destroy($id, Request $request)
+    {
+        $user = auth('sanctum')->user();
+        config('flux-notification.models.sent_push_notification')::where('user_id', $user->id)->where('id', $id)
+            ->delete();
+        return response()->noContent();
+
     }
 }
