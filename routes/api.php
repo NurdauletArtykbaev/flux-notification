@@ -14,7 +14,7 @@ Route::prefix('api')->group(function(){
 //            Route::get('', [NotificationController::class, 'getNotifications']);
             Route::get('unread', [NotificationController::class, 'getUnread']);
             Route::get('{slug}', [NotificationController::class, 'getUserNotifications']);
-            Route::post('unread', [NotificationController::class, 'updateUnread']);
+            Route::post('{slug}/unread', [NotificationController::class, 'updateUnread']);
             Route::delete('{id}', [NotificationController::class, 'destroy']);
         });
     });

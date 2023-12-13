@@ -56,25 +56,26 @@ class NotificationController
         return NotificationResource::collection($notifications)->additional(['success' => true]);
     }
 
-    public function updateUnread(Request $request)
+    public function updateUnread($slug,Request $request)
     {
         $user = auth('sanctum')->user();
-        $type = $request->input('type');
-        $unreadNotifications = config('flux-notification.models.sent_push_notification')::query()
+         config('flux-notification.models.sent_push_notification')::query()
             ->where('status', NotificationHelper::STATUS_UNREAD)
+            ->whereHas('notificationType', fn($query) => $query->where('slug', $slug))
             ->where('user_id', $user->id)
-            ->when(!empty($type), fn($query) => $query->whereHas('notificationType', fn($query) => $query->where('slug', $type)))
-            ->get();
+            ->update([
+                'status' => NotificationHelper::STATUS_READ
+            ]);
 
 
-        if (isset($request->notifacation_ids) && is_array($request->notifacation_ids)) {
-            config('flux-notification.models.sent_push_notification')::whereIn('id', $request->notifacation_ids)->update(['status' => NotificationHelper::STATUS_READ]);
-        } else {
-            foreach ($unreadNotifications as $notification) {
-                $notification->status = NotificationHelper::STATUS_READ;
-                $notification->save();
-            }
-        }
+//        if (isset($request->notifacation_ids) && is_array($request->notifacation_ids)) {
+//            config('flux-notification.models.sent_push_notification')::whereIn('id', $request->notifacation_ids)->update(['status' => NotificationHelper::STATUS_READ]);
+//        } else {
+//            foreach ($unreadNotifications as $notification) {
+//                $notification->status = NotificationHelper::STATUS_READ;
+//                $notification->save();
+//            }
+//        }
 
         return response()->noContent();
     }
