@@ -1,8 +1,8 @@
 <?php
 
-namespace Raim\FluxNotify\Push\Contracts;
+namespace Raim\FluxNotify\Services\Push\Contracts;
 
-use Raim\FluxNotify\Push\Classes\PushNotification;
+use Raim\FluxNotify\Services\Push\Classes\PushNotification;
 
 interface PushDriverInterface
 {

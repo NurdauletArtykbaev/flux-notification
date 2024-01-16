@@ -8,8 +8,9 @@ use Filament\Navigation\NavigationGroup;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
-use Raim\FluxNotify\Push\Contracts\PushDriverInterface;
-use Raim\FluxNotify\Push\Drivers\FirebasePushDriver;
+use Raim\FluxNotify\Services\Push\Contracts\PushDriverInterface;
+use Raim\FluxNotify\Services\Push\Drivers\FirebasePushDriver;
+use Raim\FluxNotify\Services\Push\PushService;
 
 class FluxNotificationsServiceProvider extends ServiceProvider
 {

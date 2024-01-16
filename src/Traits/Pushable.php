@@ -3,7 +3,7 @@
 namespace Raim\FluxNotify\Traits;
 
 use Raim\FluxNotify\Models\SentPushNotification;
-use Raim\FluxNotify\Push\Classes\PushNotification;
+use Raim\FluxNotify\Services\Push\Classes\PushNotification;
 
 trait Pushable
 {

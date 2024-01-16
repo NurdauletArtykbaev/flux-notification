@@ -1,6 +1,6 @@
 <?php
 
-namespace Raim\FluxNotify\Push\Facades;
+namespace Raim\FluxNotify\Services\Push\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

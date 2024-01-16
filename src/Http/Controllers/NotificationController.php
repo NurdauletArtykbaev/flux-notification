@@ -30,7 +30,8 @@ class NotificationController
     {
         $user = auth('sanctum')->user();
 
-        $notifications = config('flux-notification.models.user')::findOrFail($user->id)->sentPushNotifications()
+        $notifications = config('flux-notification.models.user')::findOrFail($user->id)
+            ->sentPushNotifications()
             ->whereHas('notificationType', fn($query) => $query->where('slug', $slug))
             ->isNotOld()
 //            ->when($slug != SendNotificationHelper::NOTIFICATION_TYPE_NEWS, fn($query) => $query->has('order')->with('order'))

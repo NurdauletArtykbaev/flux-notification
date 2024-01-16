@@ -1,9 +1,9 @@
 <?php
 
-namespace Raim\FluxNotify\Push;
+namespace Raim\FluxNotify\Services\Push;
 
-use Raim\FluxNotify\Push\Classes\PushNotification;
-use Raim\FluxNotify\Push\Contracts\PushDriverInterface;
+use Raim\FluxNotify\Services\Push\Classes\PushNotification;
+use Raim\FluxNotify\Services\Push\Contracts\PushDriverInterface;
 
 class PushService
 {

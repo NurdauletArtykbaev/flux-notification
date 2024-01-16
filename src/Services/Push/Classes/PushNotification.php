@@ -6,8 +6,7 @@ use Raim\FluxNotify\Helpers\DeviceTokenHelper;
 use Raim\FluxNotify\Helpers\NotificationHelper;
 use Raim\FluxNotify\Models\SentPushNotification;
 use Raim\FluxNotify\Facades\PushFacade;
-use App\Repositories\v1\DeviceTokenRepository;
-use Raim\FluxNotify\Push\Jobs\SendPushNotificationJob;
+use Raim\FluxNotify\Services\Push\Jobs\SendPushNotificationJob;
 
 class PushNotification
 {
@@ -92,7 +91,7 @@ class PushNotification
         if ($driver == DeviceTokenHelper::DRIVER_EXPO) {
 
             if (empty($response) || !isset($response['data']) || !isset($response['data'][0])) {
-                (new DeviceTokenRepository())->deleteUserTokens($this->receiver, $driver);
+//                (new DeviceTokenRepository())->deleteUserTokens($this->receiver, $driver);
                 return $status;
             }
 
@@ -100,7 +99,7 @@ class PushNotification
             if ($status && $status === 'ok') {
                 $status = NotificationHelper::STATUS_UNREAD;
             } else {
-                (new DeviceTokenRepository())->deleteUserTokens($this->receiver, $driver);
+//                (new DeviceTokenRepository())->deleteUserTokens($this->receiver, $driver);
                 $status = NotificationHelper::STATUS_FAILED;
             }
         }

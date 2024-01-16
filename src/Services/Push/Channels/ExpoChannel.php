@@ -1,6 +1,6 @@
 <?php
 
-namespace Raim\FluxNotify\Push\Channels;
+namespace Raim\FluxNotify\Services\Push\Channels;
 
 use Illuminate\Notifications\Notification;
 

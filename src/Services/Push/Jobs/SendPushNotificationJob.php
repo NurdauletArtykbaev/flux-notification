@@ -1,8 +1,8 @@
 <?php
 
-namespace Raim\FluxNotify\Push\Jobs;
+namespace Raim\FluxNotify\Services\Push\Jobs;
 
-use Raim\FluxNotify\Push\Classes\PushNotification;
+use Raim\FluxNotify\Services\Push\Classes\PushNotification;
 use Raim\FluxNotify\Facades\PushFacade;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;

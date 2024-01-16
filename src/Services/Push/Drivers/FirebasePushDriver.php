@@ -1,10 +1,10 @@
 <?php
 
-namespace Raim\FluxNotify\Push\Drivers;
+namespace Raim\FluxNotify\Services\Push\Drivers;
 
 use Raim\FluxNotify\Helpers\DeviceTokenHelper;
 use Raim\FluxNotify\Services\Push\Classes\PushNotification;
-use Raim\FluxNotify\Push\Contracts\PushDriverInterface;
+use Raim\FluxNotify\Services\Push\Contracts\PushDriverInterface;
 use Illuminate\Support\Facades\Http;
 
 class FirebasePushDriver implements PushDriverInterface
