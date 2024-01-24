@@ -25,21 +25,21 @@ class NotificationResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'token_id' => $this->token_id,
+//            'token_id' => $this->token_id,
             'subject' => $this->fields_json['subject'] ?? $this->removeVariablesFromText($this->pushable->subject),
             'text' => $this->fields_json['text'] ?? $this->removeVariablesFromText($this->pushable->text),
-            'order_id' => $this->fields_json['order_id'] ?? null,
-            'item' => $ad ?? null,
-            'notification_type_id' => $this->notification_type_id,
-            'order' => $this->whenLoaded('order', function () {
-                return [
-                    'id' => $this->order->id,
-                    'client_status' => $this->order->client_status,
-                    'lord_status' => $this->order->lord_status,
-                    'status' => $this->order->status,
-                ];
-            }),
-            'status' => $this->status,
+//            'order_id' => $this->fields_json['order_id'] ?? null,
+//            'item' => $ad ?? null,
+//            'notification_type_id' => $this->notification_type_id,
+//            'order' => $this->whenLoaded('order', function () {
+//                return [
+//                    'id' => $this->order->id,
+//                    'client_status' => $this->order->client_status,
+//                    'lord_status' => $this->order->lord_status,
+//                    'status' => $this->order->status,
+//                ];
+//            }),
+//            'status' => $this->status,
             'created_at' => $this->created_at?->format('Y-m-d  H:i') ?? null,
         ];
     }
