@@ -26,7 +26,7 @@ class NotificationController
         ]);
     }
 
-    public function getUserNotifications($slug)
+    public function getNotificationsBySlug($slug)
     {
         $user = auth('sanctum')->user();
 
@@ -35,6 +35,20 @@ class NotificationController
             ->whereHas('notificationType', fn($query) => $query->where('slug', $slug))
             ->isNotOld()
 //            ->when($slug != SendNotificationHelper::NOTIFICATION_TYPE_NEWS, fn($query) => $query->has('order')->with('order'))
+            ->orderByRaw("CASE WHEN sent_push_notifications.status!='" . NotificationHelper::STATUS_READ . "'THEN 1 ELSE 2 END ASC")
+            ->orderBy("created_at", "desc")
+            ->get();
+
+        return NotificationResource::collection($notifications)->additional(['success' => true]);
+    }
+
+    public function getNotifications()
+    {
+        $user = auth('sanctum')->user();
+
+        $notifications = config('flux-notification.models.user')::findOrFail($user->id)
+            ->sentPushNotifications()
+            ->isNotOld()
             ->orderByRaw("CASE WHEN sent_push_notifications.status!='" . NotificationHelper::STATUS_READ . "'THEN 1 ELSE 2 END ASC")
             ->orderBy("created_at", "desc")
             ->get();
@@ -69,7 +83,8 @@ class NotificationController
     public function destroy($id, Request $request)
     {
         $user = auth('sanctum')->user();
-        config('flux-notification.models.sent_push_notification')::where('user_id', $user->id)->where('id', $id)
+        config('flux-notification.models.sent_push_notification')::where('user_id', $user->id)
+            ->where('id', $id)
             ->delete();
         return response()->noContent();
 

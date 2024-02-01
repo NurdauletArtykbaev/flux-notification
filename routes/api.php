@@ -11,8 +11,9 @@ Route::prefix('api')->group(function(){
         Route::delete('device-token', [DeviceTokenController::class, 'delete']);
 
         Route::group(['prefix' => 'notifications'], function () {
+            Route::get('', [NotificationController::class, 'getNotifications']);
             Route::get('unread', [NotificationController::class, 'getUnread']);
-            Route::get('{slug}', [NotificationController::class, 'getUserNotifications']);
+            Route::get('{slug}', [NotificationController::class, 'getNotificationsBySlug']);
             Route::post('{slug}/unread', [NotificationController::class, 'updateUnread']);
             Route::delete('{id}', [NotificationController::class, 'destroy']);
         });
