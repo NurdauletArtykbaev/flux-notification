@@ -56,10 +56,23 @@ class NotificationController
         return NotificationResource::collection($notifications)->additional(['success' => true]);
     }
 
-    public function updateUnread($slug,Request $request)
+    public function updateUnread(Request $request, $slug = null)
     {
         $user = auth('sanctum')->user();
-         config('flux-notification.models.sent_push_notification')::query()
+        config('flux-notification.models.sent_push_notification')::query()
+            ->where('status', NotificationHelper::STATUS_UNREAD)
+            ->when(!empty($slug), fn($query) => $query->whereHas('notificationType', fn($query) => $query->where('slug', $slug)))
+            ->where('user_id', $user->id)
+            ->update([
+                'status' => NotificationHelper::STATUS_READ
+            ]);
+        return response()->noContent();
+    }
+
+    public function updateUnreadBySlug($slug, Request $request)
+    {
+        $user = auth('sanctum')->user();
+        config('flux-notification.models.sent_push_notification')::query()
             ->where('status', NotificationHelper::STATUS_UNREAD)
             ->whereHas('notificationType', fn($query) => $query->where('slug', $slug))
             ->where('user_id', $user->id)

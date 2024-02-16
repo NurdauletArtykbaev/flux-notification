@@ -28,7 +28,7 @@ class PushNotification
     private function preparePushData($data, $replace = []): array
     {
         $body = [
-            'subject' => $this->applyReplacement($data['subject'] ?? $this->pushable?->subject ?? 'Naprocat', $replace),
+            'subject' => $this->applyReplacement($data['subject'] ?? $this->pushable?->subject ?? env('APP_NAME'), $replace),
             'text' => $this->applyReplacement($data['text'] ?? $this->pushable?->text, $replace),
             "sound" => "default",
             'extra' => [
