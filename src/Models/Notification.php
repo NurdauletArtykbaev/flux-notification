@@ -45,6 +45,7 @@ class Notification extends Model
         'subject',
         'description',
         'send_sms',
+        'icon',
         'key',
         'notification_type_id'
     ];

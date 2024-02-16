@@ -19,6 +19,7 @@ return new class extends Migration {
                 $table->string('description')->nullable();
                 $table->text('subject')->nullable();
                 $table->text('text')->nullable();
+                $table->string('icon')->nullable();
                 $table->boolean('send_sms')->default(false);
                 $table->foreignId('notification_type_id')->nullable()->references('id')->on('notification_types')->nullOnDelete();
                 $table->timestamps();
@@ -60,6 +61,11 @@ return new class extends Migration {
         if (!Schema::hasColumn('notifications', 'send_sms')) {
             Schema::table('notifications', function (Blueprint $table) {
                 $table->boolean('send_sms')->default(false);
+            });
+        }
+        if (!Schema::hasColumn('notifications', 'icon')) {
+            Schema::table('notifications', function (Blueprint $table) {
+                $table->string('icon')->nullable();
             });
         }
 

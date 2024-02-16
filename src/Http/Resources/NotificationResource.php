@@ -25,7 +25,7 @@ class NotificationResource extends JsonResource
 
         return [
             'id' => $this->id,
-//            'token_id' => $this->token_id,
+            'icon' => $this->pushable?->icon ? (config('filesystems.disks.s3.url') . '/' . $this->pushable->icon) : null,
             'subject' => $this->fields_json['subject'] ?? $this->removeVariablesFromText($this->pushable->subject),
             'text' => $this->fields_json['text'] ?? $this->removeVariablesFromText($this->pushable->text),
 //            'order_id' => $this->fields_json['order_id'] ?? null,

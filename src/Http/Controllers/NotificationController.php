@@ -7,6 +7,7 @@ use Raim\FluxNotify\Helpers\SendNotificationHelper;
 use Raim\FluxNotify\Http\Resources\NotificationResource;
 
 use Illuminate\Http\Request;
+use Raim\FluxNotify\Models\SentPushNotification;
 
 class NotificationController
 {
@@ -33,6 +34,7 @@ class NotificationController
         $notifications = config('flux-notification.models.user')::findOrFail($user->id)
             ->sentPushNotifications()
             ->whereHas('notificationType', fn($query) => $query->where('slug', $slug))
+            ->with('pushable')
             ->isNotOld()
 //            ->when($slug != SendNotificationHelper::NOTIFICATION_TYPE_NEWS, fn($query) => $query->has('order')->with('order'))
             ->orderByRaw("CASE WHEN sent_push_notifications.status!='" . NotificationHelper::STATUS_READ . "'THEN 1 ELSE 2 END ASC")
@@ -42,16 +44,16 @@ class NotificationController
         return NotificationResource::collection($notifications)->additional(['success' => true]);
     }
 
-    public function getNotifications()
+    public function getNotifications(Request $request)
     {
         $user = auth('sanctum')->user();
 
-        $notifications = config('flux-notification.models.user')::findOrFail($user->id)
-            ->sentPushNotifications()
+        $notifications = SentPushNotification::whereUserId($user->id)
             ->isNotOld()
-            ->orderByRaw("CASE WHEN sent_push_notifications.status!='" . NotificationHelper::STATUS_READ . "'THEN 1 ELSE 2 END ASC")
+            ->with('pushable')
+            ->orderByRaw("CASE WHEN status!='" . NotificationHelper::STATUS_READ . "'THEN 1 ELSE 2 END ASC")
             ->orderBy("created_at", "desc")
-            ->get();
+            ->paginate($request->input('per_page', 20));
 
         return NotificationResource::collection($notifications)->additional(['success' => true]);
     }
@@ -79,17 +81,6 @@ class NotificationController
             ->update([
                 'status' => NotificationHelper::STATUS_READ
             ]);
-
-
-//        if (isset($request->notifacation_ids) && is_array($request->notifacation_ids)) {
-//            config('flux-notification.models.sent_push_notification')::whereIn('id', $request->notifacation_ids)->update(['status' => NotificationHelper::STATUS_READ]);
-//        } else {
-//            foreach ($unreadNotifications as $notification) {
-//                $notification->status = NotificationHelper::STATUS_READ;
-//                $notification->save();
-//            }
-//        }
-
         return response()->noContent();
     }
 
@@ -100,6 +91,5 @@ class NotificationController
             ->where('id', $id)
             ->delete();
         return response()->noContent();
-
     }
 }

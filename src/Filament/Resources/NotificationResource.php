@@ -44,6 +44,11 @@ class NotificationResource extends Resource
                     ->label(trans('flux-notification.notification.fields.subject')),
                 Forms\Components\TextInput::make('text')
                     ->label(trans('flux-notification.notification.fields.text')),
+                Forms\Components\FileUpload::make('icon')
+                    ->image()
+                    ->disk('s3')
+                    ->directory('notifications')
+                    ->label(trans('admin.icon')),
                 Forms\Components\Select::make('notification_type_id')
                     ->relationship('notificationType', 'name')
                     ->preload()
@@ -62,6 +67,11 @@ class NotificationResource extends Resource
                     ->label(trans('flux-notification.notification.fields.text')),
                 Tables\Columns\TextColumn::make('description')
                     ->label(trans('flux-notification.notification.fields.description')),
+                Tables\Columns\ImageColumn::make('icon')
+                    ->width(150)
+                    ->height(150)
+                    ->disk('s3')
+                    ->label(trans('admin.icon')),
                 Tables\Columns\TextColumn::make('notificationType.name')
                     ->sortable()
                     ->searchable()
