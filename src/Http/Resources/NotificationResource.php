@@ -3,6 +3,7 @@
 namespace Raim\FluxNotify\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Raim\FluxNotify\Helpers\NotificationHelper;
 
 class NotificationResource extends JsonResource
 {
@@ -39,7 +40,7 @@ class NotificationResource extends JsonResource
 //                    'status' => $this->order->status,
 //                ];
 //            }),
-//            'status' => $this->status,
+            'is_read' => NotificationHelper::STATUS_READ == $this->status,
             'created_at' => $this->created_at?->format('Y-m-d  H:i') ?? null,
         ];
     }
